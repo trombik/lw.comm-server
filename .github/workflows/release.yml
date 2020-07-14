@@ -36,7 +36,7 @@ jobs:
             # XXX ldd /root/.cache/electron-builder/AppImage/AppImage-09-07-16-linux/xorriso
             # libreadline.so.6 => not found
             BUILD_DEPEND: graphicsmagick xz-utils xorriso
-            BUILD_ENVIRONMENT_VAR: USE_SYSTEM_XORRISO=true
+            BUILD_ENVIRONMENT_VAR: ""
             BUILD_ARTIFACT_FILE_EXT: AppImage
             PKG_INSTALL_CMD: sudo apt-get install
           - version: macos-amd64
