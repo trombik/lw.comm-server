@@ -17,7 +17,6 @@
     "electron": "2.0.x",
     "electron-builder": "^21.2.x",
     "electron-rebuild": "1.8.x",
-    "node-gyp": "^6.1.x",
     "ncp": "2.0.x"
   },
   "dependencies": {
