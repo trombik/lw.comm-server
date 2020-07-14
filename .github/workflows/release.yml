@@ -11,12 +11,18 @@ jobs:
       matrix:
         version:
           - linux-amd64
+          - linux-i386
           - macos-amd64
           - windows-amd64
             # XXX probably, 32 bit Windows is not so common, but built it
             # anyway to see if the workflow has portability issues.
           - windows-i386
         include:
+          # XXX all of variables defined here are required. use empty string,
+          # "", or `${{ false }}` for BUILD_DEPEND if you do not need. GitHub
+          # Action will refuse to run the workflow if any of them are not
+          # defined.
+          #
           # OS: used in many `if:` and in artifact names to identify artifact.
           # ARCH: used in artifact names to identify artifact.
           # RUNNER_PLATFORM: used in `runs-on:` to choose platform of the
@@ -32,7 +38,15 @@ jobs:
             OS: linux
             ARCH: amd64
             RUNNER_PLATFORM: ubuntu-latest
-            ELECTRON_BUILDER_FLAGS: --linux
+            ELECTRON_BUILDER_FLAGS: --linux --x64
+            BUILD_DEPEND: graphicsmagick xz-utils
+            BUILD_ARTIFACT_FILE_EXT: AppImage
+            PKG_INSTALL_CMD: sudo apt-get install
+          - version: linux-i386
+            OS: linux
+            ARCH: i386
+            RUNNER_PLATFORM: ubuntu-latest
+            ELECTRON_BUILDER_FLAGS: --linux --ia32
             BUILD_DEPEND: graphicsmagick xz-utils
             BUILD_ARTIFACT_FILE_EXT: AppImage
             PKG_INSTALL_CMD: sudo apt-get install
@@ -48,7 +62,7 @@ jobs:
             OS: windows
             ARCH: i386
             RUNNER_PLATFORM: windows-latest
-            ELECTRON_BUILDER_FLAGS: --ia32
+            ELECTRON_BUILDER_FLAGS: --windows --ia32
             BUILD_DEPEND: ${{ false }}
             BUILD_ARTIFACT_FILE_EXT: exe
             PKG_INSTALL_CMD: ""
@@ -56,7 +70,7 @@ jobs:
             OS: windows
             ARCH: amd64
             RUNNER_PLATFORM: windows-latest
-            ELECTRON_BUILDER_FLAGS: --x64
+            ELECTRON_BUILDER_FLAGS: --windows --x64
             BUILD_DEPEND: ${{ false }}
             BUILD_ARTIFACT_FILE_EXT: exe
             PKG_INSTALL_CMD: ""
