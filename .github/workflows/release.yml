@@ -84,8 +84,11 @@ jobs:
             BUILD_ARTIFACT_FILE_EXT: exe
             PKG_INSTALL_CMD: ""
         node-version:
+          # include 10.x only. serialport for 12.x is not available probably
+          # because it does not support 12.x.
+          #
+          # "No prebuilt binaries found (target=12.18.1 runtime=node arch=x64 platform=linux)'
           - 10.x
-          - 12.x
     steps:
       - name: Install required packages
         if: matrix.BUILD_DEPEND
