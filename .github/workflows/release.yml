@@ -33,8 +33,6 @@ jobs:
             ARCH: amd64
             RUNNER_PLATFORM: ubuntu-latest
             ELECTRON_BUILDER_FLAGS: --linux
-            # XXX ldd /root/.cache/electron-builder/AppImage/AppImage-09-07-16-linux/xorriso
-            # libreadline.so.6 => not found
             BUILD_DEPEND: graphicsmagick xz-utils
             BUILD_ARTIFACT_FILE_EXT: AppImage
             PKG_INSTALL_CMD: sudo apt-get install
