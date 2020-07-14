@@ -85,6 +85,7 @@ jobs:
             PKG_INSTALL_CMD: ""
         node-version:
           - 10.x
+          - 12.x
     steps:
       - name: Install required packages
         if: matrix.BUILD_DEPEND
