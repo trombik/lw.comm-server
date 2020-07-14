@@ -17,6 +17,17 @@ jobs:
             # anyway to see if the workflow has portability issues.
           - windows-i386
         include:
+          # OS: used in many `if:` and in artifact names to identify artifact.
+          # ARCH: used in artifact names to identify artifact.
+          # RUNNER_PLATFORM: used in `runs-on:` to choose platform of the
+          # runner.
+          # ELECTRON_BUILDER_FLAGS: extra flags to pass when building code
+          # with electron-builder.
+          # BUILD_DEPEND: space-separated list of package names to install
+          # before the build
+          # BUILD_ARTIFACT_FILE_EXT: file extension of artifacts. files with
+          # this string at the end will be considered as artifacts.
+          # PKG_INSTALL_CMD: command to install BUILD_DEPEND
           - version: linux-amd64
             OS: linux
             ARCH: amd64
@@ -141,6 +152,8 @@ jobs:
         if: matrix.OS != 'windows'
         run: |
           cd ${GITHUB_WORKSPACE}/LaserWeb4
+          # remove `v` from semver because Windows does not like string in
+          # version number.
           UI_VERSION=$(git describe --abbrev=0 --tags | tr -d 'v')
 
           cd ${GITHUB_WORKSPACE}/lw.comm-server
@@ -153,6 +166,8 @@ jobs:
         shell: bash
         run: |
           cd ${GITHUB_WORKSPACE}\\LaserWeb4
+          # remove `v` from semver because Windows does not like string in
+          # version number.
           UI_VERSION=$(git describe --abbrev=0 --tags | tr -d 'v')
 
           cd ${GITHUB_WORKSPACE}\\lw.comm-server
