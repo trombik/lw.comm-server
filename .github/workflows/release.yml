@@ -35,8 +35,7 @@ jobs:
             ELECTRON_BUILDER_FLAGS: --linux
             # XXX ldd /root/.cache/electron-builder/AppImage/AppImage-09-07-16-linux/xorriso
             # libreadline.so.6 => not found
-            BUILD_DEPEND: graphicsmagick xz-utils xorriso
-            BUILD_ENVIRONMENT_VAR: ""
+            BUILD_DEPEND: graphicsmagick xz-utils
             BUILD_ARTIFACT_FILE_EXT: AppImage
             PKG_INSTALL_CMD: sudo apt-get install
           - version: macos-amd64
@@ -45,7 +44,6 @@ jobs:
             RUNNER_PLATFORM: macos-latest
             ELECTRON_BUILDER_FLAGS: --macos
             BUILD_DEPEND: ${{ false }}
-            BUILD_ENVIRONMENT_VAR: ""
             BUILD_ARTIFACT_FILE_EXT: dmg
             PKG_INSTALL_CMD: brew install
           - version: windows-i386
@@ -54,7 +52,6 @@ jobs:
             RUNNER_PLATFORM: windows-latest
             ELECTRON_BUILDER_FLAGS: --ia32
             BUILD_DEPEND: ${{ false }}
-            BUILD_ENVIRONMENT_VAR: ""
             BUILD_ARTIFACT_FILE_EXT: exe
             PKG_INSTALL_CMD: ""
           - version: windows-amd64
@@ -63,7 +60,6 @@ jobs:
             RUNNER_PLATFORM: windows-latest
             ELECTRON_BUILDER_FLAGS: --x64
             BUILD_DEPEND: ${{ false }}
-            BUILD_ENVIRONMENT_VAR: ""
             BUILD_ARTIFACT_FILE_EXT: exe
             PKG_INSTALL_CMD: ""
         node-version:
@@ -158,7 +154,6 @@ jobs:
 
           cd ${GITHUB_WORKSPACE}/lw.comm-server
           SERVER_VERSION=$(cat version.txt | cut -c 3-6)
-          env ${{ matrix.BUILD_ENVIRONMENT_VAR }} \
           ./node_modules/.bin/electron-builder build --config.buildVersion=$UI_VERSION -p never ${{ matrix.ELECTRON_BUILDER_FLAGS }}
 
       - name: Build (Windows)
@@ -172,7 +167,6 @@ jobs:
 
           cd ${GITHUB_WORKSPACE}\\lw.comm-server
           SERVER_VERSION=$(cat version.txt | cut -c 3-6)
-          env ${{ matrix.BUILD_ENVIRONMENT_VAR }} \
           node_modules\\.bin\\electron-builder build --config.buildVersion=$UI_VERSION -p never ${{ matrix.ELECTRON_BUILDER_FLAGS }}
 
       - name: Upload build artifact (Unix)
