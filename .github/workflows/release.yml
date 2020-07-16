@@ -76,15 +76,6 @@ jobs:
       - name: Checkout lw.comm-server
         uses: actions/checkout@v2
         with:
-          path: lw.comm-server
-
-      - name: Checkout LaserWeb4
-        uses: actions/checkout@v2
-        with:
-          repository: trombik/LaserWeb4
-          path: LaserWeb4
-          ref: sync-package-json
-          # keep all history. other step needs commit logs.
           fetch-depth: 0
           submodules: true
 
@@ -119,31 +110,35 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      - name: Run yarn
+        shell: bash
+        run: |
+          yarn --frozen-lockfile
+
+      - name: Prepare
+        shell: bash
+        run: |
+          yarn prep
+
       - name: Build LaserWeb4
         shell: bash
         run: |
-          # XXX avoid file separator difference
-          cd ${GITHUB_WORKSPACE}
-          cd LaserWeb4
-          npm ci
-          npm run bundle-dev
+          yarn build-LaserWeb4
 
-      - name: Run yarn in lw.comm-server
+      - name: Bundle LaserWeb4
         shell: bash
         run: |
-          cd ${GITHUB_WORKSPACE}
-          cd lw.comm-server
-          yarn --frozen-lockfile
+          yarn bundle-LaserWeb4
 
       - name: Build (Unix)
         if: matrix.OS != 'windows'
         run: |
-          cd ${GITHUB_WORKSPACE}/LaserWeb4
+          cd LaserWeb4
           # remove `v` from semver because Windows does not like string in
           # version number.
           UI_VERSION=$(git describe --abbrev=0 --tags | tr -d 'v')
 
-          cd ${GITHUB_WORKSPACE}/lw.comm-server
+          cd ${GITHUB_WORKSPACE}
           SERVER_VERSION=$(cat version.txt | cut -c 3-6)
           ./node_modules/.bin/electron-builder build --config.buildVersion=$UI_VERSION -p never ${{ matrix.ELECTRON_BUILDER_FLAGS }}
 
@@ -151,12 +146,12 @@ jobs:
         if: matrix.OS == 'windows'
         shell: bash
         run: |
-          cd ${GITHUB_WORKSPACE}\\LaserWeb4
+          cd LaserWeb4
           # remove `v` from semver because Windows does not like string in
           # version number.
           UI_VERSION=$(git describe --abbrev=0 --tags | tr -d 'v')
 
-          cd ${GITHUB_WORKSPACE}\\lw.comm-server
+          cd ${GITHUB_WORKSPACE}
           SERVER_VERSION=$(cat version.txt | cut -c 3-6)
           node_modules\\.bin\\electron-builder build --config.buildVersion=$UI_VERSION -p never ${{ matrix.ELECTRON_BUILDER_FLAGS }}
 
@@ -166,14 +161,14 @@ jobs:
         with:
           name: lw.comm-server-${{ matrix.OS }}-${{ matrix.ARCH }}-${{ github.sha }}
           path: |
-            ${{ github.workspace }}/lw.comm-server/dist/*.AppImage
-            ${{ github.workspace }}/lw.comm-server/dist/*.snap
-            ${{ github.workspace }}/lw.comm-server/dist/*.zip
-            ${{ github.workspace }}/lw.comm-server/dist/*.dmg
-            ${{ github.workspace }}/lw.comm-server/dist/*.exe
-            ${{ github.workspace }}/lw.comm-server/dist/*.rpm
-            ${{ github.workspace }}/lw.comm-server/dist/*.deb
-            ${{ github.workspace }}/lw.comm-server/dist/*.tar.gz
+            ${{ github.workspace }}/dist/*.AppImage
+            ${{ github.workspace }}/dist/*.snap
+            ${{ github.workspace }}/dist/*.zip
+            ${{ github.workspace }}/dist/*.dmg
+            ${{ github.workspace }}/dist/*.exe
+            ${{ github.workspace }}/dist/*.rpm
+            ${{ github.workspace }}/dist/*.deb
+            ${{ github.workspace }}/dist/*.tar.gz
 
       - name: Upload build artifact (Windows)
         if: matrix.OS == 'windows'
@@ -181,14 +176,14 @@ jobs:
         with:
           name: lw.comm-server-${{ matrix.OS }}-${{ matrix.ARCH }}-${{ github.sha }}
           path: |
-            ${{ github.workspace }}\\lw.comm-server\\dist\\*.AppImage
-            ${{ github.workspace }}\\lw.comm-server\\dist\\*.snap
-            ${{ github.workspace }}\\lw.comm-server\\dist\\*.zip
-            ${{ github.workspace }}\\lw.comm-server\\dist\\*.dmg
-            ${{ github.workspace }}\\lw.comm-server\\dist\\*.exe
-            ${{ github.workspace }}\\lw.comm-server\\dist\\*.rpm
-            ${{ github.workspace }}\\lw.comm-server\\dist\\*.deb
-            ${{ github.workspace }}\\lw.comm-server\\dist\\*.tar.gz
+            ${{ github.workspace }}\\dist\\*.AppImage
+            ${{ github.workspace }}\\dist\\*.snap
+            ${{ github.workspace }}\\dist\\*.zip
+            ${{ github.workspace }}\\dist\\*.dmg
+            ${{ github.workspace }}\\dist\\*.exe
+            ${{ github.workspace }}\\dist\\*.rpm
+            ${{ github.workspace }}\\dist\\*.deb
+            ${{ github.workspace }}\\dist\\*.tar.gz
   release:
     # runs only when tag starts with 'v'
     if: startsWith(github.ref, 'refs/tags/v')

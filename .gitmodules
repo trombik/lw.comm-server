@@ -1,0 +1,4 @@
+[submodule "LaserWeb4"]
+	path = LaserWeb4
+	url = https://github.com/trombik/LaserWeb4.git
+	branch = sync-package-json
