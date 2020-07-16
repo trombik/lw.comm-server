@@ -122,7 +122,6 @@ jobs:
         run: |
           cd ${GITHUB_WORKSPACE}/LaserWeb4
           npm ci
-          npm run installdev
           npm run bundle-dev
 
       - name: Build LaserWeb4 (Windows)
@@ -131,7 +130,6 @@ jobs:
         run: |
           cd %GITHUB_WORKSPACE%\LaserWeb4
           npm ci
-          npm run installdev
           npm run bundle-dev
 
       - name: Run npm ci in lw.comm-server (Unix)
