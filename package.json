@@ -18,9 +18,7 @@
     "electron-builder": "^21.2.x",
     "ncp": "2.0.x"
   },
-  "postinstall": {
-    "electron-builder install-app-deps"
-  },
+  "postinstall": "electron-builder install-app-deps",
   "dependencies": {
     "chalk": "*",
     "dotenv": "8.x",
