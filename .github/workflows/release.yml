@@ -106,32 +106,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Build LaserWeb4 (Unix)
-        if: matrix.OS != 'windows'
+      - name: Build LaserWeb4
         run: |
-          cd ${GITHUB_WORKSPACE}/LaserWeb4
+          # XXX avoid file separator difference
+          cd ${GITHUB_WORKSPACE}
+          cd LaserWeb4
           npm ci
           npm run bundle-dev
 
-      - name: Build LaserWeb4 (Windows)
-        if: matrix.OS == 'windows'
-        shell: cmd
+      - name: Run npm ci in lw.comm-server
         run: |
-          cd %GITHUB_WORKSPACE%\LaserWeb4
-          npm ci
-          npm run bundle-dev
-
-      - name: Run npm ci in lw.comm-server (Unix)
-        if: matrix.OS != 'windows'
-        run: |
-          cd ${GITHUB_WORKSPACE}/lw.comm-server
-          npm ci
-
-      - name: Run npm ci in lw.comm-server (Windows)
-        if: matrix.OS == 'windows'
-        shell: cmd
-        run: |
-          cd %GITHUB_WORKSPACE%\lw.comm-server
+          cd ${GITHUB_WORKSPACE}
+          cd lw.comm-server
           npm ci
 
       - name: Build (Unix)
