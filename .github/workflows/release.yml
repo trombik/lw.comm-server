@@ -156,19 +156,6 @@ jobs:
           cd %GITHUB_WORKSPACE%\lw.comm-server
           npm ci
 
-      - name: Rebuild electron (Unix)
-        if: matrix.OS != 'windows'
-        run: |
-          cd ${GITHUB_WORKSPACE}/lw.comm-server
-          ./node_modules/.bin/electron-rebuild
-
-      - name: Rebuild electron (Windows)
-        if: matrix.OS == 'windows'
-        shell: cmd
-        run: |
-          cd %GITHUB_WORKSPACE%\lw.comm-server
-          .\node_modules\.bin\electron-rebuild
-
       - name: Build (Unix)
         if: matrix.OS != 'windows'
         run: |
