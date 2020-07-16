@@ -107,6 +107,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Build LaserWeb4
+        shell: bash
         run: |
           # XXX avoid file separator difference
           cd ${GITHUB_WORKSPACE}
@@ -114,7 +115,8 @@ jobs:
           npm ci
           npm run bundle-dev
 
-      - name: Run npm ci in lw.comm-server
+      - name: Run yarn in lw.comm-server
+        shell: bash
         run: |
           cd ${GITHUB_WORKSPACE}
           cd lw.comm-server
