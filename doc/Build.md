@@ -5,6 +5,13 @@
 - git
 - nodejs 10.x
 - yarn
+- npm
+
+### Notes
+
+#### Devuan
+
+`yarn` is known as `yarnpkg`.
 
 ## Building lw.comm-server
 
