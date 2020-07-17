@@ -52,7 +52,7 @@
     "prep": "yarn prep-LaserWeb4",
     "build-LaserWeb4": "cd LaserWeb4 && npm ci && npm run bundle-dev",
     "bundle-LaserWeb4": "shx cp -r LaserWeb4/dist/ app/",
-    "build": "yarn build-LaserWeb4 && yarn bundle-LaserWeb4 && cross-env ./node_modules/.bin/electron-builder build"
+    "build": "yarn build-LaserWeb4 && yarn bundle-LaserWeb4"
   },
   "keywords": [
     "laserweb",
