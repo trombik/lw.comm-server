@@ -13,6 +13,10 @@
 
 `yarn` is known as `yarnpkg`.
 
+#### Do not use `yarn install`, use `yarn install --frozen-lockfile` instead
+
+Unless you need to add or update dependency, do NOT use `yarn install`.
+
 ## Building lw.comm-server
 
 ```
@@ -20,6 +24,16 @@
 > cd lw.comm-server
 > yarn --frozen-lockfile
 > yarn prep
+> yarn build
+```
+
+## Updating the branch
+
+When you update the branch and rebuild the code, do the followings:
+
+```console
+> git pull
+> yarn --frozen-lockfile
 > yarn build
 ```
 
