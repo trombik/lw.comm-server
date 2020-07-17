@@ -74,6 +74,7 @@
     "appId": "xyz.laserweb",
     "productName": "LaserWeb",
     "asar": true,
+    "npmRebuild": true,
     "files": [
       "**/*"
     ],
