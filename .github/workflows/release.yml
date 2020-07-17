@@ -120,15 +120,10 @@ jobs:
         run: |
           yarn prep
 
-      - name: Build LaserWeb4
+      - name: Build lw.comm-server
         shell: bash
         run: |
-          yarn build-LaserWeb4
-
-      - name: Bundle LaserWeb4
-        shell: bash
-        run: |
-          yarn bundle-LaserWeb4
+          yarn build
 
       - name: Build (Unix)
         if: matrix.OS != 'windows'
