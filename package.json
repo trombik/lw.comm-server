@@ -14,15 +14,12 @@
   },
   "devDependencies": {
     "copyfiles": "1.2.x",
-    "electron": "2.0.x",
-    "electron-builder": "^14.5.x",
-    "electron-rebuild": "1.8.x",
-    "ncp": "2.0.x"
+    "ncp": "2.0.x",
+    "shx": "^0.3.2"
   },
   "dependencies": {
     "chalk": "*",
     "dotenv": "8.x",
-    "hdiutil": "0.0.6",
     "node-static": "*",
     "request": "*",
     "serialport": "6.2.2",
@@ -46,7 +43,10 @@
     "distlinx64": "export USE_SYSTEM_XORRISO=true&& npm run copy && build --linux --x64",
     "copy": "ncp ../LaserWeb4/dist/ app/ --limit=6",
     "nightlywindows": "cd ../LaserWeb4 && git checkout dev-es6 && git pull && npm run installdev && npm run bundle-dev && cd .. && cd lw.comm-server && git checkout electron_bundler && git pull && npm install && npm run distwinx64 && cd ./dist && mv *.exe ../../LaserWeb4-Binaries/win64/ && cd .. && npm run distwinx86 && cd ./dist && mv *.exe ../../LaserWeb4-Binaries/win32/ && cd ../../LaserWeb4-Binaries",
-    "nightlylinux": "cd ../LaserWeb4 && git checkout dev-es6 && git pull && npm run installdev && npm run bundle-dev && cd .. && cd lw.comm-server && git checkout electron_bundler && git pull && npm install && npm run distlinx64 && cd ./dist && mv *.exe ../../LaserWeb4-Binaries/linux64/ && cd .. && npm run distlinx86 && cd ./dist && mv *.exe ../../LaserWeb4-Binaries/linux32/ && cd ../../LaserWeb4-Binaries"
+    "nightlylinux": "cd ../LaserWeb4 && git checkout dev-es6 && git pull && npm run installdev && npm run bundle-dev && cd .. && cd lw.comm-server && git checkout electron_bundler && git pull && npm install && npm run distlinx64 && cd ./dist && mv *.exe ../../LaserWeb4-Binaries/linux64/ && cd .. && npm run distlinx86 && cd ./dist && mv *.exe ../../LaserWeb4-Binaries/linux32/ && cd ../../LaserWeb4-Binaries",
+    "build-LaserWeb4": "cd LaserWeb4 && npm ci && npm run bundle-dev",
+    "bundle-LaserWeb4": "shx mkdir -p app && shx cp -r LaserWeb4/dist/ app/",
+    "build": "npm run build-LaserWeb4 && npm run bundle-LaserWeb4"
   },
   "keywords": [
     "laserweb",
