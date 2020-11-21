@@ -1,0 +1,59 @@
+---
+name: Build
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+        node-version:
+          - 10.x
+    steps:
+      - name: Install required packages (ubuntu-latest)
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt-get install graphicsmagick xz-utils
+
+      - name: Checkout lw.comm-server
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Get npm cache directory
+        id: npm-cache
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+
+      - name: Cache npm
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Workaround PATH issue on Windows
+        # npm ERR! Command failed: git submodule update -q --init --recursive
+        # npm ERR! C:/Program Files/Git/mingw64/libexec/git-core\git-submodule: line 22: .: git-sh-setup: file not found
+        shell: bash
+        if: matrix.os == 'windows-latest'
+        run: |
+          echo 'C:\Program Files\Git\mingw64\libexec\git-core' >> $GITHUB_PATH
+
+      - name: Build lw.comm-server
+        shell: bash
+        run: |
+          npm ci
+          npm run build
