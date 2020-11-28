@@ -45,7 +45,7 @@
     "nightlywindows": "cd ../LaserWeb4 && git checkout dev-es6 && git pull && npm run installdev && npm run bundle-dev && cd .. && cd lw.comm-server && git checkout electron_bundler && git pull && npm install && npm run distwinx64 && cd ./dist && mv *.exe ../../LaserWeb4-Binaries/win64/ && cd .. && npm run distwinx86 && cd ./dist && mv *.exe ../../LaserWeb4-Binaries/win32/ && cd ../../LaserWeb4-Binaries",
     "nightlylinux": "cd ../LaserWeb4 && git checkout dev-es6 && git pull && npm run installdev && npm run bundle-dev && cd .. && cd lw.comm-server && git checkout electron_bundler && git pull && npm install && npm run distlinx64 && cd ./dist && mv *.exe ../../LaserWeb4-Binaries/linux64/ && cd .. && npm run distlinx86 && cd ./dist && mv *.exe ../../LaserWeb4-Binaries/linux32/ && cd ../../LaserWeb4-Binaries",
     "build-LaserWeb4": "cd LaserWeb4 && npm ci && npm run bundle-dev",
-    "bundle-LaserWeb4": "shx mkdir -p app && shx cp -r LaserWeb4/dist/ app/",
+    "bundle-LaserWeb4": "shx mkdir -p app && shx cp -r LaserWeb4/dist/* app/",
     "build": "npm run build-LaserWeb4 && npm run bundle-LaserWeb4"
   },
   "keywords": [

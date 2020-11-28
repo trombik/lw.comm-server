@@ -45,3 +45,4 @@ node_modules
 # Local settings #
 ##################
 .env
+/app/
