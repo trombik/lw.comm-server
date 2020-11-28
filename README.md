@@ -4,6 +4,11 @@
 
 lw.comm-server is based on nodejs 10.x.
 
+## CI status
+
+![npm audit](https://github.com/trombik/lw.comm-server/workflows/Audit/badge.svg)
+![Build](https://github.com/trombik/lw.comm-server/workflows/Build/badge.svg)
+
 ## Communication structure
 ![Communication diagram](https://github.com/LaserWeb/lw.comm-server/blob/master/doc/communications-diagram.jpg)
 
